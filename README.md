@@ -1,6 +1,7 @@
 # COTBK-Menu
 
 ### Adds sourcemod functionality to Castle Of The Bladekeeper  
+### Please Note: This is not necessary to play the map, just some QoL features
 - Use command `!commandsmenu` to access features  
 - Upgrade your stats
 - Cast your spells
