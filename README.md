@@ -11,6 +11,6 @@
 - Mapper approved & tested
 
 Let me know about any bugs  
-Translation files can be added in the future  
+Translation files coming soon  
 For use in version `_b2` and above  
 Reloading during the map should be fine but requires a round restart as well  
