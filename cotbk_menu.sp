@@ -10,7 +10,7 @@ public Plugin myinfo =
     name = "COTBK Command Menu",
     author = "tilgep",
     description = "Menu for Castle of the Bladekeeper, (and VIP loading)",
-    version = "1.0",
+    version = "1.1",
     url = "steamcommunity.com/id/tilgep"
 };
 
@@ -53,18 +53,6 @@ char spellNames[20][32] = {
     "Corruption Imprisonment"
 };
 
-char lore[9][128] = {
-    "A Massive Castle, Located In An Unknown Place.. A Physical Link To The Divine Blade.",
-    "A Remnant of A Supreme Elder Being, Controls The Flow of Life, But Not The Death.",
-    "In Need Of A Keeper, It Waits... A Keeper Emerges, The Keeper Ascends.",
-    "A Mighty Warrior With His 2 Shields, With The Cause of Reviving His Dead Lover.",
-    "Deceived By Its Power, The Keeper Was Cast Down... Accepting His Fate.",
-    "Centuries Passed, Many Challengers Dead By His Blade... He Became Corrupt.",
-    "With The Power of The Blade And His Corrupted Soul... He Casts A Dark Spell.",
-    "For His Intent To Outspread Desperation And Death... For He Can Only Die In Battle.",
-    "The Blade Awaits Its New Champions... For They Are The Only Hope For Salvation..."
-};
-
 Player g_Players[MAXPLAYERS+1];                 //Array of player info
 bool g_bLoaded = false;                         //Are we playing bladekeeper?
 int g_iCommandManager = INVALID_ENT_REFERENCE;  //Ent reference of manager script
@@ -72,6 +60,8 @@ bool g_bLate = false;
 
 public void OnPluginStart()
 {
+    LoadTranslations("common.phrases");
+    LoadTranslations("cotbk_menu.phrases");
     RegConsoleCmd("sm_commandsmenu", Command_Menu, "Command menu for Castle of the Bladekeeper");
     HookEvent("round_start", Event_RoundStart);
     if(g_bLate)
@@ -134,7 +124,7 @@ public void Event_RoundStart(Event ev, const char[] name, bool dontBroadcast)
     if(!g_bLoaded) return;
 
     //Re-find script ent every round
-    CreateTimer(1.0, Timer_FindEnts);
+    CreateTimer(1.5, Timer_FindEnts);
 }
 
 public Action Timer_FindEnts(Handle timer)
@@ -146,6 +136,14 @@ public Action Timer_FindEnts(Handle timer)
 void FindScriptEnt()
 {
     char script[128];
+
+    // Avoid searching if ent stays the same
+    if(g_iCommandManager != INVALID_ENT_REFERENCE)
+    {
+        GetEntPropString(g_iCommandManager, Prop_Data, "m_iName", script, sizeof(script));
+        if(StrEqual(script, "CommandsMenuManager")) return;
+    }
+
     int entity = INVALID_ENT_REFERENCE;
     
     //Find the script
@@ -158,16 +156,30 @@ void FindScriptEnt()
     g_iCommandManager = entity;
     
     //Let the script know if we aren't loaded
-    if(g_iCommandManager == INVALID_ENT_REFERENCE)
-    {
-        SetVariantString("::PluginBasedMenu = false;");
-        AcceptEntityInput(g_iCommandManager, "RunScriptCode");
-    }
-    else
+    if(g_iCommandManager != INVALID_ENT_REFERENCE)
     {
         SetVariantString("::PluginBasedMenu = true;");
         AcceptEntityInput(g_iCommandManager, "RunScriptCode");
     }
+    else
+    {
+        entity = CreateEntityByName("info_target");
+        if(entity!=-1)
+        {
+            SetVariantString("::PluginBasedMenu = false;");
+            AcceptEntityInput(entity, "RunScriptCode");
+            CreateTimer(0.1, Timer_KillEnt, entity);
+        }
+    }
+}
+
+public Action Timer_KillEnt(Handle timer, any ent)
+{
+    if(IsValidEntity(ent))
+    {
+        AcceptEntityInput(ent, "Kill");
+    }
+    return Plugin_Stop;
 }
 
 public Action Timer_SendPlayerData(Handle timer)
@@ -230,16 +242,34 @@ public void CreateMainMenu(int client)
     GetEntPropString(client, Prop_Data, "m_iName", name, sizeof(name));
     ExplodeString(name, "_", infos, sizeof(infos), sizeof(infos[]));
 
-    menu.SetTitle(" <--COTBK Commands Menu--> ");
+    menu.SetTitle("%T", "Main Menu Title", client);
 
-    menu.AddItem("upgrade", "Upgrade Stats");
-    menu.AddItem("spells", "Spells");
-    menu.AddItem("abilities", "Abilities");
-    menu.AddItem("lore1", "Story Lore 1");
-    menu.AddItem("lore2", "Story Lore 2");
-    menu.AddItem("fixspeed", "Fix Speed");
-    menu.AddItem("stats", "Stats Info");
-    if(infos[31][2]=='1') menu.AddItem("reset", "Reset Points");
+    Format(name, sizeof(name), "%T", "Upgrade", client);
+    menu.AddItem("upgrade", name);
+
+    Format(name, sizeof(name), "%T", "Spells", client);
+    menu.AddItem("spells", name);
+
+    Format(name, sizeof(name), "%T", "Abilities", client);
+    menu.AddItem("abilities", name);
+
+    Format(name, sizeof(name), "%T", "Lore 1", client);
+    menu.AddItem("lore1", name);
+
+    Format(name, sizeof(name), "%T", "Lore 2", client);
+    menu.AddItem("lore2", name);
+
+    Format(name, sizeof(name), "%T", "Fix Speed", client);
+    menu.AddItem("fixspeed", name);
+
+    Format(name, sizeof(name), "%T", "Stats", client);
+    menu.AddItem("stats", name);
+
+    if(infos[31][2] == '1') 
+    {
+        Format(name, sizeof(name), "%T", "Reset Points", client);
+        menu.AddItem("reset", name);
+    }
 
     menu.Display(client, MENU_TIME_FOREVER);
 }
@@ -275,7 +305,7 @@ public int MainMenuHandler(Menu menu, MenuAction action, int param1, int param2)
             }
             else if(StrEqual(item, "fixspeed"))
             {
-                Format(item, sizeof(item), "PluginFixSpeed();", item);
+                Format(item, sizeof(item), "PluginFixSpeed();");
                 SetVariantString(item);
                 AcceptEntityInput(g_iCommandManager, "RunScriptCode", param1);
 
@@ -287,11 +317,7 @@ public int MainMenuHandler(Menu menu, MenuAction action, int param1, int param2)
             }
             else if(StrEqual(item, "reset"))
             {
-                Format(item, sizeof(item), "PluginResetPoints();", item);
-                SetVariantString(item);
-                AcceptEntityInput(g_iCommandManager, "RunScriptCode", param1);
-
-                CreateTimer(0.1, Timer_CreateMainMenu, GetClientUserId(param1));
+                CreateResetMenu(param1);
             }
         }
         case MenuAction_End: delete menu;
@@ -313,28 +339,28 @@ public void CreateStatMenu(int client)
     menu.ExitBackButton = true;
 
     //We have data stored in player name to access it here
-    char name[MAX_NAME_LENGTH];
+    char name[PLATFORM_MAX_PATH];
     char infos[7][16];
     char bonus[16];
     GetEntPropString(client, Prop_Data, "m_iName", name, sizeof(name));
     ExplodeString(name, "_", infos, sizeof(infos), sizeof(infos[]));
     
-    menu.SetTitle(" <--Stats Upgrade Menu--> \nLevel: %s \nPoints Available: %s", infos[0][1], infos[1][1]);
+    menu.SetTitle("%T\n%T\n%T", "Stats Menu Title", client, "Stats Level", client, infos[0][1], "Stats Points Available", client, infos[1][1]);
 
-    Format(name, sizeof(name), "Damage (%.1fx)", StringToFloat(infos[2][1]));
+    Format(name, sizeof(name), "%T", "Stats Menu Damage", client, infos[2][1]);
     menu.AddItem("Damage", name);
 
     Format(bonus,sizeof(bonus), "%d", RoundFloat((1.0-StringToFloat(infos[3][1]))*100.0));
-    Format(name, sizeof(name), "Resistance (%s%%)", bonus);
+    Format(name, sizeof(name), "%T", "Stats Menu Resistance", client, bonus);
     menu.AddItem("Resistance", name);
 
-    Format(name, sizeof(name), "Speed (%sx)", infos[4][1]);
+    Format(name, sizeof(name), "%T", "Stats Menu Speed", client, infos[4][1]);
     menu.AddItem("Speed", name);
 
-    Format(name, sizeof(name), "Intellect (%s)", infos[5][1]);
+    Format(name, sizeof(name), "%T", "Stats Menu Intellect", client, infos[5][1]);
     menu.AddItem("Intellect", name);
 
-    Format(name, sizeof(name), "Luck (%s)", infos[6][1]);
+    Format(name, sizeof(name), "%T", "Stats Menu Luck", client, infos[6][1]);
     menu.AddItem("Luck", name);
 
     menu.Display(client, MENU_TIME_FOREVER);
@@ -378,11 +404,11 @@ public Action Timer_ShowStatMenu(Handle timer, any data)
 public void CreateSpellMenu(int client)
 {
     Menu menu = CreateMenu(SpellMenuHandler);
-    menu.SetTitle(" <--Spells Menu--> ");
+    menu.SetTitle("%T", "Spells Menu Title", client);
     menu.ExitBackButton = true;
 
     //We have data stored in player name to access it here
-    char name[MAX_NAME_LENGTH];
+    char name[PLATFORM_MAX_PATH];
     char infos[27][8];
     char temp[4];
     GetEntPropString(client, Prop_Data, "m_iName", name, sizeof(name));
@@ -397,7 +423,7 @@ public void CreateSpellMenu(int client)
             int count = StringToInt(infos[i][2]);
             if(count == 0) continue;
             Format(temp, sizeof(temp), "%d", i-7);
-            Format(name, sizeof(name), "%s (%d)", spellNames[i-7], count);
+            Format(name, sizeof(name), "%T (%d)", spellNames[i-7], client, count);
             menu.AddItem(temp, name);
             added++;
         }
@@ -409,7 +435,7 @@ public void CreateSpellMenu(int client)
             int count = StringToInt(infos[i][2]);
             if(count == 0) continue;
             Format(temp, sizeof(temp), "%d", i-7);
-            Format(name, sizeof(name), "%s (%d)", spellNames[i-7], count);
+            Format(name, sizeof(name), "%T (%d)", spellNames[i-7], client, count);
             menu.AddItem(temp, name);
             added++;
         }
@@ -461,11 +487,11 @@ public Action Timer_ShowSpellMenu(Handle timer, any data)
 public void CreateAbilityMenu(int client)
 {
     Menu menu = CreateMenu(SpellMenuHandler);
-    menu.SetTitle(" <--Abilities Menu--> ");
+    menu.SetTitle("%T", "Abilities Menu Title", client);
     menu.ExitBackButton = true;
 
     //We have data stored in player name to access it here
-    char name[MAX_NAME_LENGTH];
+    char name[PLATFORM_MAX_PATH];
     char infos[31][8];
     GetEntPropString(client, Prop_Data, "m_iName", name, sizeof(name));
     ExplodeString(name, "_", infos, sizeof(infos), sizeof(infos[]));
@@ -476,17 +502,20 @@ public void CreateAbilityMenu(int client)
     {
         if(infos[27][2] == '1')
         {
-            menu.AddItem("cb", "Crystal Blessing \n    Ability To Survive The Bladekeeper's Divine Attacks", ITEMDRAW_DISABLED);
+            Format(name, sizeof(name), "%T", "Crystal Blessing", client);
+            menu.AddItem("cb", name, ITEMDRAW_DISABLED);
             added++;
         }
         if(infos[28][2] == '1')
         {
-            menu.AddItem("fb", "Flame Blessing \n    Ability To Inflict Damage Upon The Bladekeeper's Divine Armor", ITEMDRAW_DISABLED);
+            Format(name, sizeof(name), "%T", "Flame Blessing", client);
+            menu.AddItem("fb", name, ITEMDRAW_DISABLED);
             added++;
         }
         if(infos[29][2] == '1')
         {
-            menu.AddItem("sb", "Soul Of The Bladekeeper \n    .................", ITEMDRAW_DISABLED);
+            Format(name, sizeof(name), "%T", "Soul Of The Bladekeeper", client);
+            menu.AddItem("sb", name, ITEMDRAW_DISABLED);
             added++;
         }
     }
@@ -494,14 +523,16 @@ public void CreateAbilityMenu(int client)
     {
         if(infos[30][2] == '1')
         {
-            menu.AddItem("cs", "Corruption Shields \n    Ability To Create Shields That Block Damage", ITEMDRAW_DISABLED);
+            Format(name, sizeof(name), "%T", "Corruption Shields", client);
+            menu.AddItem("cs", name, ITEMDRAW_DISABLED);
             added++;
         }
     }
 
     if(added == 0)
     {
-        menu.AddItem("none", "None", ITEMDRAW_DISABLED);
+        Format(name, sizeof(name), "%T", "None", client);
+        menu.AddItem("none", name, ITEMDRAW_DISABLED);
     }
 
     menu.Display(client, MENU_TIME_FOREVER);
@@ -523,7 +554,7 @@ public int AbilityMenuHandler(Menu menu, MenuAction action, int param1, int para
 public void CreateLore1Menu(int client)
 {
     Menu menu = CreateMenu(Lore1MenuHandler);
-    menu.SetTitle(" <--Lore Entries--> ");
+    menu.SetTitle("%T", "Lore Menu Title", client);
     menu.ExitBackButton = true;
 
     char name[16];
@@ -541,18 +572,18 @@ public void CreateLore1Menu(int client)
     }
     
     char buffer[128];
-    char temp[4];
+    char temp[8];
     for(int i = 0; i < 5; i++)
     {
         if(name[i] == '1')
         {
-            Format(buffer, sizeof(buffer), "%s", lore[i]);
+            Format(temp, sizeof(temp), "Lore%d", i+1);
         }
         else
         {
-            Format(buffer, sizeof(buffer), "????");
+            Format(temp, sizeof(temp), "????");
         }
-        Format(temp, sizeof(temp), "%d", i);
+        Format(buffer, sizeof(buffer), "%T", temp, client);
         menu.AddItem(temp, buffer, ITEMDRAW_DISABLED);
     }
     menu.Display(client, MENU_TIME_FOREVER);
@@ -574,7 +605,7 @@ public int Lore1MenuHandler(Menu menu, MenuAction action, int param1, int param2
 public void CreateLore2Menu(int client)
 {
     Menu menu = CreateMenu(Lore2MenuHandler);
-    menu.SetTitle(" <--Lore Entries--> ");
+    menu.SetTitle("%T", "Lore Menu Title", client);
     menu.ExitBackButton = true;
 
     char name[16];
@@ -592,18 +623,18 @@ public void CreateLore2Menu(int client)
     }
 
     char buffer[128];
-    char temp[4];
+    char temp[8];
     for(int i = 5; i < 9; i++)
     {
         if(name[i] == '1')
         {
-            Format(buffer, sizeof(buffer), "%s", lore[i]);
+            Format(temp, sizeof(temp), "Lore%d", i+1);
         }
         else
         {
-            Format(buffer, sizeof(buffer), "????");
+            Format(temp, sizeof(temp), "????");
         }
-        Format(temp, sizeof(temp), "%d", i);
+        Format(buffer, sizeof(buffer), "%T", temp, client);
         menu.AddItem(temp, buffer, ITEMDRAW_DISABLED);
     }
     menu.Display(client, MENU_TIME_FOREVER);
@@ -628,13 +659,24 @@ public void CreateInfoMenu(int client)
     menu.ExitButton = true;
     menu.ExitBackButton = true;
 
-    menu.SetTitle(" <--Stats Info Menu--> ");
+    menu.SetTitle("%T", "Stats Info Title", client);
 
-    menu.AddItem("Damage", "Damage: Damage Against Bosses & Other Players, Max of: (X2.6)", ITEMDRAW_DISABLED);
-    menu.AddItem("Resistance", "Resistance: Amount of Damage You Take From Bosses And Abilities, Max of: (75%)", ITEMDRAW_DISABLED);
-    menu.AddItem("Speed", "Speed: General Run & Walk Speed, Max of: (X1.2)", ITEMDRAW_DISABLED);
-    menu.AddItem("Intellect", "Intellect: Amount of Damage Dealt By Your Abilities, Max of: (2.5)", ITEMDRAW_DISABLED);
-    menu.AddItem("Luck", "Luck: Increase Your Chances Of Getting Drops, Max of: (X2.0)", ITEMDRAW_DISABLED);
+    char buffer[128];
+
+    Format(buffer, sizeof(buffer), "%T", "Damage Info", client);
+    menu.AddItem("Damage", buffer, ITEMDRAW_DISABLED);
+
+    Format(buffer, sizeof(buffer), "%T", "Resistance Info", client);
+    menu.AddItem("Resistance", buffer, ITEMDRAW_DISABLED);
+
+    Format(buffer, sizeof(buffer), "%T", "Speed Info", client);
+    menu.AddItem("Speed", buffer, ITEMDRAW_DISABLED);
+
+    Format(buffer, sizeof(buffer), "%T", "Intellect Info", client);
+    menu.AddItem("Intellect", buffer, ITEMDRAW_DISABLED);
+
+    Format(buffer, sizeof(buffer), "%T", "Luck Info", client);
+    menu.AddItem("Luck", buffer, ITEMDRAW_DISABLED);
 
     menu.Display(client, MENU_TIME_FOREVER);
 }
@@ -643,6 +685,54 @@ public int InfoMenuHandler(Menu menu, MenuAction action, int param1, int param2)
 {
     switch(action)
     {
+        case MenuAction_Cancel: 
+        {
+            if(param2==MenuCancel_ExitBack) CreateMainMenu(param1);
+        }
+        case MenuAction_End: delete menu;
+    }
+    return 0;
+}
+
+public void CreateResetMenu(int client)
+{
+    char buffer[32];
+
+    Menu menu = CreateMenu(ResetMenuHandler);
+    menu.ExitBackButton = true;
+    menu.ExitButton = true;
+    menu.SetTitle("%T", "Reset Are You Sure", client);
+    
+    Format(buffer, sizeof(buffer), "%T", "Yes", client);
+    menu.AddItem("y", buffer);
+
+    Format(buffer, sizeof(buffer), "%T", "No", client);
+    menu.AddItem("n", buffer);
+
+    menu.Display(client, MENU_TIME_FOREVER);
+}
+
+public int ResetMenuHandler(Menu menu, MenuAction action, int param1, int param2)
+{
+    switch(action)
+    {
+        case MenuAction_Select:
+        {
+            char item[32];
+            GetMenuItem(menu, param2, item, sizeof(item));
+
+            if(StrEqual(item, "y"))
+            {
+                SetVariantString("PluginResetPoints();");
+                AcceptEntityInput(g_iCommandManager, "RunScriptCode", param1);
+
+                CreateTimer(0.1, Timer_CreateMainMenu, GetClientUserId(param1));
+            }
+            else
+            {
+                CreateMainMenu(param1);
+            }
+        }
         case MenuAction_Cancel: 
         {
             if(param2==MenuCancel_ExitBack) CreateMainMenu(param1);
