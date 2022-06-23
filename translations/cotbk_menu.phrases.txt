@@ -1,0 +1,257 @@
+"Phrases"
+{
+	//Main Menu
+	"Main Menu Title"
+	{
+		"en"		" <--COTBK Commands Menu--> "
+	}
+	"Upgrade"
+	{
+		"en"		"Upgrade Stats"
+	}
+	"Spells"
+	{
+		"en"		"Spells"
+	}
+	"Abilities"
+	{
+		"en"		"Abilities"
+	}
+	"Lore 1"
+	{
+		"en"		"Story Lore 1"
+	}
+	"Lore 2"
+	{
+		"en"		"Story Lore 2"
+	}
+	"Fix Speed"
+	{
+		"en"		"Fix Speed"
+	}
+	"Stats"
+	{
+		"en"		"Stats Info"
+	}
+	"Reset Points"
+	{
+		"en"		"Reset Points"
+	}
+
+	//Upgrade Stats Menu
+	"Stats Menu Title"
+	{
+		"en"		" <--Stats Upgrade Menu--> "
+	}
+	"Stats Level" //Need to break it up since \n doesnt work from %T
+	{
+		"#format" 	"{1:s}"
+		"en"		"Level: {1}"
+	}
+	"Stats Points Available"
+	{
+		"#format"	"{1:s}"
+		"en"		"Points Available: {1}"
+	}
+	"Stats Menu Damage"
+	{
+		"#format"	"{1:s}"
+		"en"		"Damage ({1}x)"
+	}
+	"Stats Menu Resistance"
+	{
+		"#format"	"{1:s}"
+		"en"		"Resistance ({1}%%)"
+	}
+	"Stats Menu Speed"
+	{
+		"#format"	"{1:s}"
+		"en"		"Speed ({1}x)"
+	}
+	"Stats Menu Intellect"
+	{
+		"#format"	"{1:s}"
+		"en"		"Intellect ({1})"
+	}
+	"Stats Menu Luck"
+	{
+		"#format"	"{1:s}"
+		"en"		"Luck ({1})"
+	}
+
+	//Spells Menu
+	"Spells Menu Title"
+	{
+		"en"		" <--Spells Menu--> "
+	}
+	"Swords Of Light"
+	{
+		"en"		"Swords Of Light"
+	}
+    "Remedy"
+	{
+		"en"		"Remedy"
+	}
+    "Crystalkeeper Wings"
+	{
+		"en"		"Crystalkeeper Wings"
+	}
+    "Cerberus Summon"
+	{
+		"en"		"Cerberus Summon"
+	}
+    "Flamekeeper Explosion"
+	{
+		"en"		"Flamekeeper Explosion"
+	}
+    "Damage Limit Break"
+	{
+		"en"		"Damage Limit Break"
+	}
+    "Resistance Limit Break"
+	{
+		"en"		"Resistance Limit Break"
+	}
+    "Intellect Limit Break"
+	{
+		"en"		"Intellect Limit Break"
+	}
+    "Divine Benediction"
+	{
+		"en"		"Divine Benediction"
+	}
+    "Loop Hole"
+	{
+		"en"		"Loop Hole"
+	}
+    "Corrupted Remedy"
+	{
+		"en"		"Corrupted Remedy"
+	}
+    "Speed Limit Break"
+	{
+		"en"		"Speed Limit Break"
+	}
+    "Corruption Slug"
+	{
+		"en"		"Corruption Slug"
+	}
+    "Corruption Disease"
+	{
+		"en"		"Corruption Disease"
+	}
+    "Corruption Sight"
+	{
+		"en"		"Corruption Sight"
+	}
+    "Corruption Imprisonment"
+	{
+		"en"		"Corruption Imprisonment"
+	}
+
+	//Abilities Menu
+	"Abilities Menu Title"
+	{
+		"en"		" <--Abilities Menu--> "
+	}
+	"Crystal Blessing"
+	{
+		"en"		"Crystal Blessing \n    Ability To Survive The Bladekeeper's Divine Attacks"
+	}
+	"Flame Blessing"
+	{
+		"en"		"Flame Blessing \n    Ability To Inflict Damage Upon The Bladekeeper's Divine Armor"
+	}
+	"Soul Of The Bladekeeper"
+	{
+		"en"		"Soul Of The Bladekeeper \n    ................."
+	}
+	"Corruption Shields"
+	{
+		"en"		"Corruption Shields \n    Ability To Create Shields That Block Damage"
+	}
+
+	//Lore Menu
+	"Lore Menu Title"
+	{
+		"en"		" <--Lore Entries--> "
+	}
+	"????"
+	{
+		"en"		"????"
+	}
+	"Lore1"
+	{
+		"en"		"A Massive Castle, Located In An Unknown Place.. A Physical Link To The Divine Blade."
+	}
+	"Lore2"
+	{
+		"en"		"A Remnant of A Supreme Elder Being, Controls The Flow of Life, But Not The Death."
+	}
+	"Lore3"
+	{
+		"en"		"In Need Of A Keeper, It Waits... A Keeper Emerges, The Keeper Ascends."
+	}
+	"Lore4"
+	{
+		"en"		"A Mighty Warrior With His 2 Shields, With The Cause of Reviving His Dead Lover."
+	}
+	"Lore5"
+	{
+		"en"		"Deceived By Its Power, The Keeper Was Cast Down... Accepting His Fate."
+	}
+	"Lore6"
+	{
+		"en"		"Centuries Passed, Many Challengers Dead By His Blade... He Became Corrupt."
+	}
+	"Lore7"
+	{
+		"en"		"With The Power of The Blade And His Corrupted Soul... He Casts A Dark Spell."
+	}
+	"Lore8"
+	{
+		"en"		"For His Intent To Outspread Desperation And Death... For He Can Only Die In Battle."
+	}
+	"Lore9"
+	{
+		"en"		"The Blade Awaits Its New Champions... For They Are The Only Hope For Salvation..."
+	}
+
+	//Stats Info Menu
+	"Stats Info Title"
+	{
+		"en"		" <--Stats Info Menu--> "
+	}
+	"Damage Info"
+	{
+		"en"		"Damage: Damage Against Bosses & Other Players, Max of: (X2.6)"
+	}
+	"Resistance Info"
+	{
+		"en"		"Resistance: Amount of Damage You Take From Bosses And Abilities, Max of: (75%%)"
+	}
+	"Speed Info"
+	{
+		"en"		"Speed: General Run & Walk Speed, Max of: (X1.2)"
+	}
+	"Intellect Info"
+	{
+		"en"		"Intellect: Amount of Damage Dealt By Your Abilities, Max of: (2.5)"
+	}
+	"Luck Info"
+	{
+		"en"		"Luck: Increase Your Chances Of Getting Drops, Max of: (X2.0)"
+	}
+
+	//Reset Confirmation
+	"Reset Are You Sure"
+	{
+		"en"		"Are you sure? You can only do this once."
+	}
+
+	//Other
+	"None"
+	{
+		"en"		"None"
+	}
+}
