@@ -10,7 +10,7 @@ public Plugin myinfo =
     name = "COTBK Command Menu",
     author = "tilgep",
     description = "Menu for Castle of the Bladekeeper, (and VIP loading)",
-    version = "1.1",
+    version = "1.2",
     url = "steamcommunity.com/id/tilgep"
 };
 
@@ -56,6 +56,7 @@ char spellNames[20][32] = {
 Player g_Players[MAXPLAYERS+1];                 //Array of player info
 bool g_bLoaded = false;                         //Are we playing bladekeeper?
 int g_iCommandManager = INVALID_ENT_REFERENCE;  //Ent reference of manager script
+int g_iLoreEnt = INVALID_ENT_REFERENCE;
 bool g_bLate = false;
 
 public void OnPluginStart()
@@ -123,6 +124,7 @@ public void Event_RoundStart(Event ev, const char[] name, bool dontBroadcast)
 {
     if(!g_bLoaded) return;
 
+    g_iLoreEnt = INVALID_ENT_REFERENCE;
     //Re-find script ent every round
     CreateTimer(1.5, Timer_FindEnts);
 }
@@ -502,19 +504,19 @@ public void CreateAbilityMenu(int client)
     {
         if(infos[27][2] == '1')
         {
-            Format(name, sizeof(name), "%T", "Crystal Blessing", client);
+            Format(name, sizeof(name), "%T\n    %T", "Crystal Blessing", client, "CB2", client);
             menu.AddItem("cb", name, ITEMDRAW_DISABLED);
             added++;
         }
         if(infos[28][2] == '1')
         {
-            Format(name, sizeof(name), "%T", "Flame Blessing", client);
+            Format(name, sizeof(name), "%T\n    %T", "Flame Blessing", client, "FB2", client);
             menu.AddItem("fb", name, ITEMDRAW_DISABLED);
             added++;
         }
         if(infos[29][2] == '1')
         {
-            Format(name, sizeof(name), "%T", "Soul Of The Bladekeeper", client);
+            Format(name, sizeof(name), "%T\n    %T", "Soul Of The Bladekeeper", client, "SotB2", client);
             menu.AddItem("sb", name, ITEMDRAW_DISABLED);
             added++;
         }
@@ -523,7 +525,7 @@ public void CreateAbilityMenu(int client)
     {
         if(infos[30][2] == '1')
         {
-            Format(name, sizeof(name), "%T", "Corruption Shields", client);
+            Format(name, sizeof(name), "%T\n    %T", "Corruption Shields", client, "CS2", client);
             menu.AddItem("cs", name, ITEMDRAW_DISABLED);
             added++;
         }
@@ -551,12 +553,8 @@ public int AbilityMenuHandler(Menu menu, MenuAction action, int param1, int para
     return 0;
 }
 
-public void CreateLore1Menu(int client)
+public void FindLoreEnt()
 {
-    Menu menu = CreateMenu(Lore1MenuHandler);
-    menu.SetTitle("%T", "Lore Menu Title", client);
-    menu.ExitBackButton = true;
-
     char name[16];
     int entity = INVALID_ENT_REFERENCE;
     
@@ -566,8 +564,32 @@ public void CreateLore1Menu(int client)
         GetEntPropString(entity, Prop_Data, "m_iName", name, sizeof(name));
         if(StrEqual(name, "LORE_DATA", false))
         {
-            GetEntPropString(entity, Prop_Data, "m_iszMessage", name, sizeof(name));
+            g_iLoreEnt = entity;
             break;
+        }
+    }
+}
+
+public void CreateLore1Menu(int client)
+{
+    Menu menu = CreateMenu(Lore1MenuHandler);
+    menu.SetTitle("%T", "Lore Menu Title", client);
+    menu.ExitBackButton = true;
+
+    char name[16];
+    
+    if(g_iLoreEnt == INVALID_ENT_REFERENCE)
+    {
+        FindLoreEnt();
+    }
+    
+    //Get info on collected lore
+    if(g_iLoreEnt != INVALID_ENT_REFERENCE)
+    {
+        GetEntPropString(g_iLoreEnt, Prop_Data, "m_iName", name, sizeof(name));
+        if(StrEqual(name, "LORE_DATA", false))
+        {
+            GetEntPropString(g_iLoreEnt, Prop_Data, "m_iszMessage", name, sizeof(name));
         }
     }
     
@@ -609,16 +631,19 @@ public void CreateLore2Menu(int client)
     menu.ExitBackButton = true;
 
     char name[16];
-    int entity = INVALID_ENT_REFERENCE;
     
-    //Find the lore data ent
-    while((entity = FindEntityByClassname(entity, "game_text")) != INVALID_ENT_REFERENCE)
+    if(g_iLoreEnt == INVALID_ENT_REFERENCE)
     {
-        GetEntPropString(entity, Prop_Data, "m_iName", name, sizeof(name));
-        if(StrEqual(name, "LORE_DATA"))
+        FindLoreEnt();
+    }
+    
+    //Get info on collected lore
+    if(g_iLoreEnt != INVALID_ENT_REFERENCE)
+    {
+        GetEntPropString(g_iLoreEnt, Prop_Data, "m_iName", name, sizeof(name));
+        if(StrEqual(name, "LORE_DATA", false))
         {
-            GetEntPropString(entity, Prop_Data, "m_iszMessage", name, sizeof(name));
-            break;
+            GetEntPropString(g_iLoreEnt, Prop_Data, "m_iszMessage", name, sizeof(name));
         }
     }
 
