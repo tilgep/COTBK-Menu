@@ -156,19 +156,35 @@
 	}
 	"Crystal Blessing"
 	{
-		"en"		"Crystal Blessing \n    Ability To Survive The Bladekeeper's Divine Attacks"
+		"en"		"Crystal Blessing"
+	}
+	"CB2"
+	{
+		"en"		"Ability To Survive The Bladekeeper's Divine Attacks"
 	}
 	"Flame Blessing"
 	{
-		"en"		"Flame Blessing \n    Ability To Inflict Damage Upon The Bladekeeper's Divine Armor"
+		"en"		"Flame Blessing"
+	}
+	"FB2"
+	{
+		"en"		"Ability To Inflict Damage Upon The Bladekeeper's Divine Armor"
 	}
 	"Soul Of The Bladekeeper"
 	{
-		"en"		"Soul Of The Bladekeeper \n    ................."
+		"en"		"Soul Of The Bladekeeper"
+	}
+	"SotB2"
+	{
+		"en"		"................."
 	}
 	"Corruption Shields"
 	{
-		"en"		"Corruption Shields \n    Ability To Create Shields That Block Damage"
+		"en"		"Corruption Shields"
+	}
+	"CS2"
+	{
+		"en"		"Ability To Create Shields That Block Damage"
 	}
 
 	//Lore Menu
