@@ -1,0 +1,273 @@
+"Phrases"
+{
+	//Main Menu
+	"Main Menu Title"
+	{
+		"chi"		" <--功能菜单--> "
+	}
+	"Upgrade"
+	{
+		"chi"		"属性升级列表"
+	}
+	"Spells"
+	{
+		"chi"		"技能"
+	}
+	"Abilities"
+	{
+		"chi"		"能力"
+	}
+	"Lore 1"
+	{
+		"chi"		"传说典籍1"
+	}
+	"Lore 2"
+	{
+		"chi"		"传说典籍2"
+	}
+	"Fix Speed"
+	{
+		"chi"		"修复速度"
+	}
+	"Stats"
+	{
+		"chi"		"个人状态"
+	}
+	"Reset Points"
+	{
+		"chi"		"重置技能点(只有1次)"
+	}
+
+	//Upgrade Stats Menu
+	"Stats Menu Title"
+	{
+		"chi"		" <--属性升级菜单--> "
+	}
+	"Stats Level" //Need to break it up since \n doesnt work from %T
+	{
+		"#format" 	"{1: s}"
+		"chi"		"等级: {1}"
+	}
+	"Stats Points Available"
+	{
+		"#format"	"{1: s}"
+		"chi"		"可用点数: {1}"
+	}
+	"Stats Menu Damage"
+	{
+		"#format"	"{1: s}"
+		"chi"		"伤害倍率 ({1}x)"
+	}
+	"Stats Menu Resistance"
+	{
+		"#format"	"{1: s}"
+		"chi"		"防御倍率 ({1}%%)"
+	}
+	"Stats Menu Speed"
+	{
+		"#format"	"{1: s}"
+		"chi"		"速度倍率 ({1}x)"
+	}
+	"Stats Menu Intellect"
+	{
+		"#format"	"{1: s}"
+		"chi"		"智力倍率 ({1})"
+	}
+	"Stats Menu Luck"
+	{
+		"#format"	"{1: s}"
+		"chi"		"幸运倍率 ({1})"
+	}
+
+	//Spells Menu
+	"Spells Menu Title"
+	{
+		"chi"		" <--技能菜单--> "
+	}
+	"Swords Of Light"
+	{
+		"chi"		"圣光剑"
+	}
+    "Remedy"
+	{
+		"chi"		"愈疗术"
+	}
+    "Crystalkeeper Wings"
+	{
+		"chi"		"水晶守护者之翼"
+	}
+    "Cerberus Summon"
+	{
+		"chi"		"召唤地狱犬"
+	}
+    "Flamekeeper Explosion"
+	{
+		"chi"		"火焰熊熊"
+	}
+    "Damage Limit Break"
+	{
+		"chi"		"超越天际的攻击力"
+	}
+    "Resistance Limit Break"
+	{
+		"chi"		"无可突破的防御力"
+	}
+    "Intellect Limit Break"
+	{
+		"chi"		"万中无一的智慧"
+	}
+    "Divine Benediction"
+	{
+		"chi"		"净化一切"
+	}
+    "Loop Hole"
+	{
+		"chi"		"传送黑洞"
+	}
+    "Corrupted Remedy"
+	{
+		"chi"		"接骨疗伤"
+	}
+    "Speed Limit Break"
+	{
+		"chi"		"无人可及的速度"
+	}
+    "Corruption Slug"
+	{
+		"chi"		"腐蚀子弹"
+	}
+    "Corruption Disease"
+	{
+		"chi"		"腐蚀瘟疫"
+	}
+    "Corruption Sight"
+	{
+		"chi"		"混淆视野"
+	}
+    "Corruption Imprisonment"
+	{
+		"chi"		"腐蚀监牢"
+	}
+
+	//Abilities Menu
+	"Abilities Menu Title"
+	{
+		"chi"		" <--能力菜单--> "
+	}
+	"Crystal Blessing"
+	{
+		"chi"		"水晶祝福"
+	}
+  "CB2"
+  {
+    "chi"   "能够在执剑人的终极一击之下存活下来"
+  }
+	"Flame Blessing"
+	{
+		"chi"		"火焰祝福"
+	}
+  "FB2"
+  {
+    "chi"   "可以对执剑人的神圣护甲造成伤害"
+  }
+	"Soul Of The Bladekeeper"
+	{
+		"chi"		"执剑人的灵魂"
+	}
+  "SotB2"
+  {
+    "chi"   "未知"
+  }
+	"Corruption Shields"
+	{
+		"chi"		"破败盾牌"
+	}
+  "CS2"
+  {
+    "chi"   "能够制造阻挡人类伤害的盾牌"
+  }
+
+	//Lore Menu
+	"Lore Menu Title"
+	{
+		"chi"		" <--传说典籍--> "
+	}
+	"????"
+	{
+		"chi"		"????"
+	}
+	"Lore1"
+	{
+		"chi"		"一座广袤的城堡, 流离于世界之外..其中保管着一切的起源---创世之剑"
+	}
+	"Lore2"
+	{
+		"chi"		"创世之剑, 能带来创生的奇迹, 却无法带来终结."
+	}
+	"Lore3"
+	{
+		"chi"		"创世之剑需要一个真正的主人, 它在等待... 每当一个守护者离去, 新的守护者将会出现."
+	}
+	"Lore4"
+	{
+		"chi"		"一位只想拯救自己爱人的勇士, 他来到了这里."
+	}
+	"Lore5"
+	{
+		"chi"		"但是他受到创世之剑的腐蚀, 失败了, 正如破败王那句话, 永失吾爱, 举目破败."
+	}
+	"Lore6"
+	{
+		"chi"		"几个世纪过去了, 许多挑战者死在创世之剑的傀儡手下, 他逐渐成为传说中为世界带来毁灭的破败之王."
+	}
+	"Lore7"
+	{
+		"chi"		"在最后, 这位曾经的勇士, 在创世之剑的力量下, 放出了破败之咒."
+	}
+	"Lore8"
+	{
+		"chi"		"破败之咒带着绝望和死亡, 开始席卷世界... 他只能在战斗中被杀死."
+	}
+	"Lore9"
+	{
+		"chi"		"而我们, 就是这个世界最后的希望, 最后的救赎..."
+	}
+
+	//Stats Info Menu
+	"Stats Info Title"
+	{
+		"chi"		" <--属性介绍--> "
+	}
+	"Damage Info"
+	{
+		"chi"		"伤害倍率: 对BOSS和其它玩家造成伤害的倍率, 最大值: (X2.6)"
+	}
+	"Resistance Info"
+	{
+		"chi"		"防御力: 减免BOSS以及其它玩家对你造成的伤害, 最大值: (75%)"
+	}
+	"Speed Info"
+	{
+		"chi"		"速度: 增加你的前进速度, 最大倍率: (X1.2)"
+	}
+	"Intellect Info"
+	{
+		"chi"		"智力: 能加强你的技能伤害和解密能力, 最大值: (2.5)"
+	}
+	"Luck Info"
+	{
+		"chi"		"幸运值: 能更容易开出战利品, 最大值: (X2.0)"
+	}
+
+	//Reset Confirmation
+	"Reset Are You Sure"
+	{
+		"chi"		"你确定吗?你只有这么一次, 唯一的一次"
+	}
+
+	//Other
+	"None"
+	{
+		"chi"		"无"
+	}
+}
