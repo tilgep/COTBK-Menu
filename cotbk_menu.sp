@@ -10,7 +10,7 @@ public Plugin myinfo =
     name = "COTBK Command Menu",
     author = "tilgep",
     description = "Menu for Castle of the Bladekeeper, (and VIP loading)",
-    version = "1.2",
+    version = "1.3",
     url = "steamcommunity.com/id/tilgep"
 };
 
@@ -106,6 +106,8 @@ public void OnMapStart()
 
 public void OnClientPostAdminCheck(int client)
 {
+    if(!g_bLoaded) return;
+
     char id[64];
     GetClientAuthId(client, AuthId_Steam2, id, sizeof(id));
     
@@ -117,7 +119,7 @@ public void OnClientPostAdminCheck(int client)
 
 public void OnClientDisconnect(int client)
 {
-    g_Players[client].Reset();
+    if (g_bLoaded) g_Players[client].Reset();
 }
 
 public void Event_RoundStart(Event ev, const char[] name, bool dontBroadcast)
@@ -137,6 +139,8 @@ public Action Timer_FindEnts(Handle timer)
 
 void FindScriptEnt()
 {
+    if(!g_bLoaded) return;
+
     char script[128];
 
     // Avoid searching if ent stays the same
