@@ -2,7 +2,7 @@
 
 ### Adds sourcemod functionality to Castle Of The Bladekeeper  
 ### Please Note: This is not necessary to play the map, just some QoL features  
-**Please add translations if you can via PR or send them to `tilgep#6294`**
+**Please add translations if you can via PR or send them to `tilgep` on discord**
 - Use command `!commandsmenu` to access features  
 - Upgrade your stats
 - Cast your spells
